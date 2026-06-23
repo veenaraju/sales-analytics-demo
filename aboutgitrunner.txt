@@ -48,3 +48,18 @@ Disadvantages:
 Harder to see logs
 More setup complexity
 
+=====================================================================
+Run the job
+./run.cmd
+the job will run in the background
+and the window shows:
+Listening for Jobs
+then:
+✅ Keep that PowerShell window open.
+Do not run anything else there.
+
+In a separate terminal
+Use another PowerShell/VS Code terminal for your normal Git commands:
+git add .
+git commit -m "test workflow"
+git push

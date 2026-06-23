@@ -26,7 +26,7 @@ def sales_by_category(df):
 
 if __name__ == "__main__":
     # Example usage
-    df = load_data('../data/sales.csv')
-    print(f"Total Sales: ${total_sales(df):.2f}")
+    df = load_data(r'D:\Python_Projects\windsurf\SalesAnalyticsDemo\data\sales.csv')
+    print(f"Total Sales modified: ${total_sales(df):.2f}")
     print(f"Average Sales: ${average_sales(df):.2f}")
     print(f"Sales by Category: {sales_by_category(df)}")
