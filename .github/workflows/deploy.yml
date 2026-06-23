@@ -26,11 +26,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4  # Official GitHub action to checkout code
 
-      # Step 2: Verify Python is installed and available on the runner
-      - name: Verify Python
-        run: |
-          python --version  # Display Python version
-          pip --version  # Display pip version
 
       # Step 3: Install required Python packages from requirements.txt
       - name: Install dependencies
