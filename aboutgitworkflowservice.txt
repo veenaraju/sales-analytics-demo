@@ -1,0 +1,33 @@
+service runner and an interactive runner.
+
+Option 1: Interactive Runner (Your current setup)
+When you run:
+.\run.cmd
+GitHub Runner starts as a normal process in that PowerShell window.
+PowerShell Window
+      │
+      └── run.cmd
+              │
+              └── GitHub Runner Connected
+
+If you close that window:
+Runner = Offline
+So for interactive mode:
+✅ Start run.cmd
+✅ Keep the window open
+❌ Close window → runner stops
+
+Option 2: Service Runner
+If you install the runner as a Windows Service:
+Windows Service Manager
+        │
+        └── GitHub Runner Service
+Then:
+Starts automatically after reboot
+No PowerShell window required
+Runs in background
+Always available
+In that case you would use commands like:
+.\svc.cmd install
+.\svc.cmd start
+But your folder doesn't contain svc.cmd, so you haven't installed it as a service.
