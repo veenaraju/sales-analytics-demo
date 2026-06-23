@@ -4,58 +4,69 @@ name: Test and Deploy
 # Trigger events: when to run this workflow
 on:
   push:
-    branches: [ main, master ]  # Run on push to main or master
+    branches:
+      - main  # Run on push to main branch
+      - master  # Run on push to master branch
+
   pull_request:
-    branches: [ main, master ]  # Run on PR to main or master
+    branches:
+      - main  # Run on PR to main branch
+      - master  # Run on PR to master branch
 
 # Jobs define the tasks to run
 jobs:
   test-and-deploy:
+
     runs-on: self-hosted  # Use self-hosted Windows runner
-    
+
     # Steps are the individual tasks in the job
     steps:
-      # Step 1: Download repository code
+
+      # Step 1: Download repository code from GitHub
       - name: Checkout code
-        uses: actions/checkout@v4
-      
-      # Step 2: Install Python 3.10
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-      
-      # Step 3: Install required Python packages
+        uses: actions/checkout@v4  # Official GitHub action to checkout code
+
+      # Step 2: Verify Python is installed and available on the runner
+      - name: Verify Python
+        run: |
+          python --version  # Display Python version
+          pip --version  # Display pip version
+
+      # Step 3: Install required Python packages from requirements.txt
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r sales-analytics-demo/requirements.txt
-      
-      # Step 4: Run unit tests with pytest
-      - name: Run pytest
+          python -m pip install --upgrade pip  # Upgrade pip to latest version
+          pip install -r requirements.txt  # Install packages from requirements file
+
+      # Step 4: Run unit tests using pytest with verbose output
+      - name: Run tests
         run: |
-          cd sales-analytics-demo
-          python -m pytest tests/ -v
-      
-      # Step 5: Create deployment directory if it doesn't exist (only runs if tests pass)
-      - name: Create deployment directory
-        if: success()  # Conditional: only run if previous steps succeeded
-        run: |
-          if (!(Test-Path "C:\Deployments\SalesApp")) {
-            New-Item -ItemType Directory -Path "C:\Deployments\SalesApp" -Force
-          }
+          python -m pytest tests -v  # Run pytest on tests folder with verbose output
+
+      # Step 5: Create deployment folder if it doesn't exist
+      - name: Create deployment folder
         shell: pwsh  # Use PowerShell for Windows commands
-      
-      # Step 6: Copy source files to deployment directory (only runs if tests pass)
-      - name: Copy files to deployment directory
-        if: success()  # Conditional: only run if previous steps succeeded
         run: |
-          Copy-Item -Path "sales-analytics-demo\src\*" -Destination "C:\Deployments\SalesApp" -Recurse -Force
+          New-Item `  # PowerShell command to create new item
+            -ItemType Directory `  # Specify item type as Directory
+            -Path "D:\Python_Projects\windsurf\SalesAnalyticsDemo\Deployments\SalesApp" `  # Target path
+            -Force  # Overwrite if already exists
+
+      # Step 6: Copy application files from src to deployment folder
+      - name: Deploy files
         shell: pwsh  # Use PowerShell for Windows commands
-      
-      # Step 7: Verify deployment by listing copied files (only runs if tests pass)
+        run: |
+          Copy-Item `  # PowerShell command to copy files
+            -Path "src\*" `  # Source path (all files in src folder)
+            -Destination "D:\Python_Projects\windsurf\SalesAnalyticsDemo\Deployments\SalesApp" `  # Destination path
+            -Recurse `  # Copy all subdirectories and files
+            -Force  # Overwrite existing files
+
+      # Verify deployment
       - name: Verify deployment
-        if: success()  # Conditional: only run if previous steps succeeded
+        shell: pwsh
         run: |
-          Get-ChildItem "C:\Deployments\SalesApp"
-        shell: pwsh  # Use PowerShell for Windows commands
+          Write-Host "Deployment completed successfully"
+          Get-ChildItem `
+            "D:\Python_Projects\windsurf\SalesAnalyticsDemo\Deployments\SalesApp" `
+            -Recurse

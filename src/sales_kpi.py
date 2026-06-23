@@ -27,6 +27,6 @@ def sales_by_category(df):
 if __name__ == "__main__":
     # Example usage
     df = load_data(r'D:\Python_Projects\windsurf\SalesAnalyticsDemo\data\sales.csv')
-    print(f"Total Sales modified: ${total_sales(df):.2f}")
+    print(f"Total Sales modified its the limit: ${total_sales(df):.2f}")
     print(f"Average Sales modified twice: ${average_sales(df):.2f}")
     print(f"Sales by Category modified twice: {sales_by_category(df)}")

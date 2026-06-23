@@ -31,3 +31,15 @@ In that case you would use commands like:
 .\svc.cmd install
 .\svc.cmd start
 But your folder doesn't contain svc.cmd, so you haven't installed it as a service.
+===============================================================
+
+If the workflow status is 
+Active = GitHub has assigned a job to the runner
+
+===============================================================
+Where to see test results
+Go to:
+GitHub Repository
+→ Actions
+→ Test and Deploy
+→ Click the latest workflow run
