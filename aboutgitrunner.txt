@@ -1,0 +1,50 @@
+Do we need to run Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/v2.335.1/actions-runner-win-x64-2.335.1.zip -OutFile actions-runner-win-x64-2.335.1.zip for every project?
+
+Option 1: One Runner Per Repository (Simplest for Learning) : 
+You would run config.cmd separately for each repository.
+
+Option 2: 
+One Runner for Multiple Repositories (Organization Level)
+
+If the repositories are under the same GitHub organization, 
+you can create an organization-level runner and share it across 
+multiple repositories.
+
+====================================================================
+Configure step for runner:
+
+That command is used to register the self-hosted runner with 
+your GitHub repository:
+example : .\config.cmd --url https://github.com/name/sales-analytics-demo --token <token>
+
+Important: Dont share the token
+It is a runner registration token. 
+Even though these tokens are usually short-lived, 
+you should treat them as sensitive and 
+generate a new one from GitHub rather than reusing the one you shared.
+Repository → Settings → Actions → Runners → New self-hosted runner
+
+
+Would you like to run the runner as service - this question will be there when you run ci/cd config steps
+Y = Install as Windows Service
+The runner gets installed as a Windows service and starts automatically when Windows boots.
+
+N = Run manually
+You start the runner when needed:
+.\run.cmd
+Advantages:
+Simple
+Easy to understand
+Good for demos and learning
+You can see logs in the PowerShell window
+
+Y = Install as Windows Service
+The runner gets installed as a Windows service and starts automatically when Windows boots.
+Advantages:
+Good for production servers
+No need to manually run run.cmd
+Keeps running after reboot
+Disadvantages:
+Harder to see logs
+More setup complexity
+
